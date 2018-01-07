@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_monthly_report_costs"
+            android:icon="@drawable/ic_monthly_report"
+            android:title="@string/main" />
+        <item
+            android:id="@+id/nav_category_costs"
+            android:icon="@drawable/ic_category"
+            android:title="@string/category" />
+
+        <item
+            android:checked="true"
+            android:id="@+id/nav_costs_costs"
+            android:icon="@drawable/ic_costs"
+            android:title="@string/costs" />
+    </group>
+
+    <item android:title="@string/add_info">
+        <menu>
+            <item
+                android:id="@+id/nav_about_costs"
+                android:icon="@drawable/ic_about"
+                android:title="@string/about_app" />
+        </menu>
+    </item>
+
+</menu>

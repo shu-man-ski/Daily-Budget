@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Eжедневный бюджет</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="main">Главаня | Отчет за месяц</string>
+    <string name="category">Категории</string>
+    <string name="add_info">Дополнительная информация</string>
+    <string name="about_app">О приложении</string>
+
+    <string name="costs">Расходы</string>
+    <string name="title_activity_category">CategoryActivity</string>
+    <string name="copyright">© Шуманский Дмитрий, 2018</string>
+    <string name="create_new_category">Создать новую категорию</string>
+    <string name="enter_name_category">Введите название категории</string>
+    <string name="enter">Добавить</string>
+    <string name="enter_cost">Введите сумму затрат</string>
+    <string name="select_category">Выбурите категорию:</string>
+
+</resources>
