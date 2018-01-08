@@ -1,6 +1,8 @@
 package shm.dim.dailybudget;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -9,16 +11,25 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import shm.dim.dailybudget.PieChart.PieChartView;
+import shm.dim.dailybudget.database.DbHelper;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private PieChartView mPieChartView;
+    private RecyclerView mMainList;
+    private CostsDataAdapter mCostsDataAdapter;
 
 
     @Override
@@ -49,15 +60,68 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        mPieChartView = findViewById(R.id.pie_chart);
-        float[] datapoints = {450, 1230, 200, 400};
-        drawRoundView(datapoints, 80);
-
-        //DbHelper dbHelper = new DbHelper(this);
-        //SQLiteDatabase database = dbHelper.getWritableDatabase();
+        DbHelper dbHelper = new DbHelper(this);
+        SQLiteDatabase database = dbHelper.getWritableDatabase();
         //dbHelper.onUpgrade(database, 1, 1);
     }
 
+    @Override
+    protected void onStart() {
+        mPieChartView = findViewById(R.id.pie_chart);
+        float[] datapoints = getSumCosts();
+        drawRoundView(datapoints, 80);
+
+        mMainList = findViewById(R.id.main_list);
+        List<Costs> costsList = getCategoryAndSumCosts();
+        mCostsDataAdapter = new CostsDataAdapter(this, costsList);
+        mMainList.setAdapter(mCostsDataAdapter);
+
+        super.onStart();
+    }
+
+
+    protected float[] getSumCosts() {
+        DbHelper dbHelper = new DbHelper(this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        List<Float> listResult = new ArrayList<>();
+
+        String query = "select CATEGORY, sum(COST) sum from Costs group by CATEGORY order by CATEGORY asc;";
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            int sumIndex = cursor.getColumnIndex("sum");
+            do {
+                listResult.add(Float.valueOf(cursor.getString(sumIndex)));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        float[] result = new float[listResult.size()];
+        for(int i = 0; i < listResult.size(); i++)
+            result[i] = listResult.get(i);
+
+        return result;
+    }
+
+    protected ArrayList<Costs> getCategoryAndSumCosts() {
+        DbHelper dbHelper = new DbHelper(this);
+        SQLiteDatabase database = dbHelper.getWritableDatabase();
+        ArrayList<Costs> data = new ArrayList<>();
+
+        String query = "select CATEGORY, sum(co.COST) sum from Costs co, Category ca "
+                + "where co.CATEGORY = ca.NAME group by CATEGORY order by sum desc;";
+        Cursor cursor = database.rawQuery(query, null);
+        if (cursor.moveToFirst()) {
+            int categoryIndex = cursor.getColumnIndex("CATEGORY");
+            int sumIndex = cursor.getColumnIndex("sum");
+            do {
+                data.add(new Costs(data.size(), cursor.getString(categoryIndex), cursor.getString(sumIndex)));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return data;
+    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

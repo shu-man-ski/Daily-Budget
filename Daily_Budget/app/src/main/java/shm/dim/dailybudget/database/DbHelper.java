@@ -28,6 +28,9 @@ public class DbHelper extends SQLiteOpenHelper {
                 + "DATE text not null, "
                 + "CATEGORY text not null, "
                 + "constraint FK_CATEGORY foreign key(CATEGORY) references Category(NAME) on delete cascade on update cascade);");
+
+        database.execSQL("create index if not exists idx_сosts "
+                + "on Costs(CATEGORY);");
     }
 
     @Override

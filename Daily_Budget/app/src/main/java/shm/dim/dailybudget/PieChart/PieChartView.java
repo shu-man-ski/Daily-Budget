@@ -12,7 +12,12 @@ import android.view.View;
 public class PieChartView extends View {
 
     private Paint paint;
-    private int[] colors = { Color.GREEN, Color.BLUE, Color.RED, Color.YELLOW };
+    private static int[] colors = {
+            Color.rgb(255, 255, 0), Color.rgb(0, 255, 0), Color.rgb(128, 128, 0),
+            Color.rgb(0, 128, 0), Color.rgb(0, 128, 128), Color.rgb(0, 0, 128),
+            Color.rgb(0, 0, 255), Color.rgb(0, 255, 255), Color.rgb(255, 0, 255),
+            Color.rgb(128, 0, 128), Color.rgb(255, 0, 0), Color.rgb(128, 0, 0),
+            Color.rgb(0, 0 ,0), Color.rgb(128, 128, 128), Color.rgb(192, 192, 192)};
     private float[] dataPoints;
     private int width;
 
@@ -67,5 +72,9 @@ public class PieChartView extends View {
         for (float val : this.dataPoints)
             total += val;
         return total;
+    }
+
+    public static int getColor(int index) {
+        return colors[index];
     }
 }

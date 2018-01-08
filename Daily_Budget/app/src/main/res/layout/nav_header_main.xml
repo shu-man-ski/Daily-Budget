@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    android:layout_width="230dp"
+    android:layout_height="230dp"
+    android:paddingTop="@dimen/nav_header_vertical_spacing"
+    android:background="@drawable/ic_logo"
+    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+</TextView>
