@@ -2,6 +2,8 @@ package shm.dim.dailybudget;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.List;
 
 import shm.dim.dailybudget.PieChart.PieChartView;
@@ -19,12 +22,12 @@ public class CostsDataAdapter extends RecyclerView.Adapter<CostsDataAdapter.View
     private LayoutInflater inflater;
     private List<Costs> costs;
     private Context context;
-    private static int position;
+    private File file;
 
-
-    CostsDataAdapter(Context context, List<Costs> costs) {
+    CostsDataAdapter(Context context, List<Costs> costs, File file) {
         this.context = context;
         this.costs = costs;
+        this.file = file;
         this.inflater = LayoutInflater.from(context);
     }
 
@@ -35,12 +38,13 @@ public class CostsDataAdapter extends RecyclerView.Adapter<CostsDataAdapter.View
         return new ViewHolder(view);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Costs cost = costs.get(position);
 
-        holder.colorView.setBackgroundColor(PieChartView.getColor(cost.getColor()));
+        holder.colorView.setBackgroundColor(PieChartView.getColor(cost.getColor(), file));
         holder.categoryView.setText(cost.getCategoryName());
         holder.sumCostView.setText(cost.getSumCosts());
 

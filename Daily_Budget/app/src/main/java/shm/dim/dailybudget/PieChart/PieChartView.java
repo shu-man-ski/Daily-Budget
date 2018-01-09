@@ -6,18 +6,20 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
+
+import java.io.File;
+
+import shm.dim.dailybudget.FileManager;
+import shm.dim.dailybudget.MainActivity;
 
 public class PieChartView extends View {
 
     private Paint paint;
-    private static int[] colors = {
-            Color.rgb(255, 255, 0), Color.rgb(0, 255, 0), Color.rgb(128, 128, 0),
-            Color.rgb(0, 128, 0), Color.rgb(0, 128, 128), Color.rgb(0, 0, 128),
-            Color.rgb(0, 0, 255), Color.rgb(0, 255, 255), Color.rgb(255, 0, 255),
-            Color.rgb(128, 0, 128), Color.rgb(255, 0, 0), Color.rgb(128, 0, 0),
-            Color.rgb(0, 0 ,0), Color.rgb(128, 128, 128), Color.rgb(192, 192, 192)};
+    private static int[] colors = new int[15];
     private float[] dataPoints;
     private int width;
 
@@ -74,7 +76,12 @@ public class PieChartView extends View {
         return total;
     }
 
-    public static int getColor(int index) {
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public static int getColor(int index,  File file) {
+        for(int i = 0; i < 14; i++) {
+            String color = FileManager.readFile(file, i);
+            colors[i] = Color.parseColor(color);
+        }
         return colors[index];
     }
 }
