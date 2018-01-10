@@ -17,15 +17,16 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import shm.dim.dailybudget.PieChart.PieChartView;
+import shm.dim.dailybudget.myView.PieChartView;
+import shm.dim.dailybudget.adapter.CostsDataAdapter;
 import shm.dim.dailybudget.database.DbHelper;
+import shm.dim.dailybudget.file_manager.FileManager;
+import shm.dim.dailybudget.model.Costs;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

@@ -1,5 +1,6 @@
 package shm.dim.dailybudget;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,21 +11,30 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import shm.dim.dailybudget.adapter.CategoryDataAdapter;
+import shm.dim.dailybudget.adapter.CostsDataAdapter;
 import shm.dim.dailybudget.database.DbHelper;
+import shm.dim.dailybudget.model.Category;
+import shm.dim.dailybudget.model.Costs;
 
 public class CategoryActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private ListView mCategoryList;
+    private RecyclerView mCategoryList;
+    private CategoryDataAdapter mCategoryDataAdapter;
+    protected List<Category> categoryList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,29 +62,61 @@ public class CategoryActivity extends AppCompatActivity
                 createCategory();
             }
         });
+    }
 
-        mCategoryList = findViewById(R.id.category_list);
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        int position = CategoryDataAdapter.getPosition();
+        Category category = categoryList.get(position);
+        showDialogMessage("Удалить категорию " +
+                category.getName() + "?", category);
+        return super.onContextItemSelected(item);
     }
 
     @Override
     protected void onStart() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,
-                getCategory());
-        mCategoryList.setAdapter(adapter);
+        mCategoryList = findViewById(R.id.category_list);
+        categoryList = getCategory();
+        mCategoryDataAdapter = new CategoryDataAdapter(this, categoryList);
+        mCategoryList.setAdapter(mCategoryDataAdapter);
         super.onStart();
     }
 
 
-    protected ArrayList<String> getCategory() {
+    private void showDialogMessage(String msg, final Category category) {
+        new AlertDialog.Builder(this)
+                .setMessage(msg)
+                .setNegativeButton("Отмена", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        return;
+                    }
+                })
+                .setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteCategory(category);
+                        onStart();
+                    }
+                }).create().show();
+    }
+
+    protected void deleteCategory( Category category) {
+        DbHelper dbHelper = new DbHelper(CategoryActivity.this);
+        SQLiteDatabase database = dbHelper.getWritableDatabase();
+        database.delete("Category", "NAME = '" + category.getName() + "'", null);
+    }
+
+    protected ArrayList<Category> getCategory() {
         DbHelper dbHelper = new DbHelper(this);
         SQLiteDatabase database = dbHelper.getWritableDatabase();
-        ArrayList<String> data = new ArrayList<>();
+        ArrayList<Category> data = new ArrayList<>();
 
         Cursor cursor = database.rawQuery("select NAME from Category", null);
         if (cursor.moveToFirst()) {
             int indexName = cursor.getColumnIndex("NAME");
             do {
-                data.add(cursor.getString(indexName));
+                data.add(new Category(cursor.getString(indexName)));
             } while (cursor.moveToNext());
         }
         cursor.close();
