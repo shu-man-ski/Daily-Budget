@@ -17,17 +17,14 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import shm.dim.dailybudget.adapter.CategoryDataAdapter;
-import shm.dim.dailybudget.adapter.CostsDataAdapter;
 import shm.dim.dailybudget.database.DbHelper;
+import shm.dim.dailybudget.dialog_fragment.CreateCategoryDialog;
 import shm.dim.dailybudget.model.Category;
-import shm.dim.dailybudget.model.Costs;
 
 public class CategoryActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -101,7 +98,7 @@ public class CategoryActivity extends AppCompatActivity
                 }).create().show();
     }
 
-    protected void deleteCategory( Category category) {
+    protected void deleteCategory(Category category) {
         DbHelper dbHelper = new DbHelper(CategoryActivity.this);
         SQLiteDatabase database = dbHelper.getWritableDatabase();
         database.delete("Category", "NAME = '" + category.getName() + "'", null);
@@ -148,8 +145,8 @@ public class CategoryActivity extends AppCompatActivity
     }
 
     public void createCategory() {
-        startActivity(new Intent(CategoryActivity.this, CreateCategoryActivity.class)
-                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        CreateCategoryDialog dialog = new CreateCategoryDialog();
+        dialog.show(getSupportFragmentManager(), null);
     }
 
 
