@@ -11,24 +11,23 @@ import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.View;
 
-import java.io.File;
-
-import shm.dim.dailybudget.file_manager.FileManager;
+import shm.dim.dailybudget.file_helper.FileHelper;
 
 public class PieChartView extends View {
 
     private Paint paint;
-    private static int[] colors = new int[15];
+    private static int[] colors;
     private float[] dataPoints;
     private int width;
 
-
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public PieChartView(Context context, AttributeSet attrs) {
         super(context, attrs);
         paint = new Paint();
         paint.setAntiAlias(true);
         paint.setDither(true);
         paint.setStyle(Paint.Style.FILL);
+        colors = new int[FileHelper.countLineInFile(context, "colors.txt")];
     }
 
 
@@ -76,10 +75,10 @@ public class PieChartView extends View {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public static int getColor(int index,  File file) {
-        for(int i = 0; i < 14; i++) {
-            String color = FileManager.readFile(file, i);
-            colors[i] = Color.parseColor(color);
+    public static int getColor(Context context, int index) {
+        String file[] = FileHelper.readFile(context, "colors.txt");
+        for(int i = 0; i < FileHelper.countLineInFile(context, "colors.txt"); i++) {
+            colors[i] = Color.parseColor(file[i]);
         }
         return colors[index];
     }

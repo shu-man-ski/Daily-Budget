@@ -26,7 +26,11 @@
         <activity android:name=".CostsActivity" />
         <activity android:name=".AboutAppActivity" />
         <activity android:name=".CreateCategoryActivity" />
-        <activity android:name=".CreateCostActivity"></activity>
+        <activity android:name=".CreateCostActivity" />
+        <provider
+            android:authorities="shm.dim.dailybudget.provider.Costs"
+            android:name=".provider.CostsProvider"
+            android:exported="true" />
     </application>
 
 </manifest>

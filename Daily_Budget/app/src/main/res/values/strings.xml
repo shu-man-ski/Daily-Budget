@@ -4,7 +4,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="main">Главаня | Отчет за месяц</string>
+    <string name="main">Главаня</string>
     <string name="category">Категории</string>
     <string name="add_info">Дополнительная информация</string>
     <string name="about_app">О приложении</string>

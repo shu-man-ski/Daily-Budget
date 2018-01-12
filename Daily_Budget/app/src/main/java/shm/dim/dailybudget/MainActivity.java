@@ -25,7 +25,7 @@ import java.util.List;
 import shm.dim.dailybudget.myView.PieChartView;
 import shm.dim.dailybudget.adapter.CostsDataAdapter;
 import shm.dim.dailybudget.database.DbHelper;
-import shm.dim.dailybudget.file_manager.FileManager;
+import shm.dim.dailybudget.file_helper.FileHelper;
 import shm.dim.dailybudget.model.Costs;
 
 public class MainActivity extends AppCompatActivity
@@ -34,8 +34,6 @@ public class MainActivity extends AppCompatActivity
     private PieChartView mPieChartView;
     private RecyclerView mMainList;
     private CostsDataAdapter mCostsDataAdapter;
-    private File file;
-
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -43,7 +41,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.setTitle("Главная | Отчет за месяц");
+        this.setTitle("Главная");
 
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
@@ -69,26 +67,6 @@ public class MainActivity extends AppCompatActivity
         DbHelper dbHelper = new DbHelper(this);
         SQLiteDatabase database = dbHelper.getWritableDatabase();
         //dbHelper.onUpgrade(database, 1, 1);
-
-        file = new File(this.getFilesDir(), "colors.txt");
-        if(!FileManager.existFile(file))
-            FileManager.createFile(file);
-        FileManager.writeToFile(
-                "#FFFF00\n" +
-                "#00FF00\n" +
-                "#808000\n" +
-                "#008000\n" +
-                "#008080\n" +
-                "#000080\n" +
-                "#0000FF\n" +
-                "#00FFFF\n" +
-                "#FF00FF\n" +
-                "#800080\n" +
-                "#FF0000\n" +
-                "#800000\n" +
-                "#000000\n" +
-                "#808080\n" +
-                "#C0C0C0", file);
     }
 
     @Override
@@ -99,7 +77,7 @@ public class MainActivity extends AppCompatActivity
 
         mMainList = findViewById(R.id.main_list);
         List<Costs> costsList = getCategoryAndSumCosts();
-        mCostsDataAdapter = new CostsDataAdapter(this, costsList, file);
+        mCostsDataAdapter = new CostsDataAdapter(this, costsList);
         mMainList.setAdapter(mCostsDataAdapter);
 
         super.onStart();

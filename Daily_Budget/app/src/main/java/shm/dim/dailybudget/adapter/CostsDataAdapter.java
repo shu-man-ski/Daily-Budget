@@ -23,12 +23,10 @@ public class CostsDataAdapter extends RecyclerView.Adapter<CostsDataAdapter.View
     private LayoutInflater inflater;
     private List<Costs> costs;
     private Context context;
-    private File file;
 
-    public CostsDataAdapter(Context context, List<Costs> costs, File file) {
+    public CostsDataAdapter(Context context, List<Costs> costs) {
         this.context = context;
         this.costs = costs;
-        this.file = file;
         this.inflater = LayoutInflater.from(context);
     }
 
@@ -45,7 +43,7 @@ public class CostsDataAdapter extends RecyclerView.Adapter<CostsDataAdapter.View
     public void onBindViewHolder(final ViewHolder holder, int position) {
         Costs cost = costs.get(position);
 
-        holder.colorView.setBackgroundColor(PieChartView.getColor(cost.getColor(), file));
+        holder.colorView.setBackgroundColor(PieChartView.getColor(context, cost.getColor()));
         holder.categoryView.setText(cost.getCategoryName());
         holder.sumCostView.setText(cost.getSumCosts());
 
