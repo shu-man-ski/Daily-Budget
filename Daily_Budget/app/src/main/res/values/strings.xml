@@ -17,5 +17,6 @@
     <string name="enter">Добавить</string>
     <string name="enter_cost">Введите сумму затрат</string>
     <string name="select_category">Выбурите категорию:</string>
+    <string name="by_dima_shumanski">by Dima Shumansi</string>
 
 </resources>

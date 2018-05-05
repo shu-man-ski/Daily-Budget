@@ -37,7 +37,7 @@
                 android:orientation="vertical"
                 android:layout_centerHorizontal="true">
 
-                <shm.dim.dailybudget.myView.PieChartView
+                <shm.dim.dailybudget.my_view.PieChartView
                     android:id="@+id/pie_chart"
                     android:layout_width="240dp"
                     android:layout_height="240dp" />

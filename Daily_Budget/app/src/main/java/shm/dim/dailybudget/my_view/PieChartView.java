@@ -1,4 +1,4 @@
-package shm.dim.dailybudget.myView;
+package shm.dim.dailybudget.my_view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

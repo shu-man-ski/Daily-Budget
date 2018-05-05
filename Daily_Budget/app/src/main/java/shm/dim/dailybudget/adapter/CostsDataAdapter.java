@@ -11,11 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.io.File;
 import java.util.List;
 
 import shm.dim.dailybudget.model.Costs;
-import shm.dim.dailybudget.myView.PieChartView;
+import shm.dim.dailybudget.my_view.PieChartView;
 import shm.dim.dailybudget.R;
 
 public class CostsDataAdapter extends RecyclerView.Adapter<CostsDataAdapter.ViewHolder> {

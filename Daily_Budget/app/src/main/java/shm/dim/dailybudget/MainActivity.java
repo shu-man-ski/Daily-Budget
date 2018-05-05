@@ -18,14 +18,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import shm.dim.dailybudget.myView.PieChartView;
+import shm.dim.dailybudget.my_view.PieChartView;
 import shm.dim.dailybudget.adapter.CostsDataAdapter;
 import shm.dim.dailybudget.database.DbHelper;
-import shm.dim.dailybudget.file_helper.FileHelper;
 import shm.dim.dailybudget.model.Costs;
 
 public class MainActivity extends AppCompatActivity
